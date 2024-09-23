@@ -3,8 +3,7 @@ package com.br.paginadigital.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 @Entity
 @Table(name="tb_livro")
@@ -22,24 +21,27 @@ public class Livro {
     @Size(min = 5, max = 100, message="Este campo deve conter no mínimo 5 e máximo 100 caracteres.")
     private String editora;
 
-    @NotBlank(message="O campo é obrigatório!")
-    @Size(min = 5, max = 100, message="Este campo deve conter no mínimo 5 e máximo 100 caracteres.")
-    private int numeroPaginas;
+    @NotNull(message="O campo é obrigatório!")
+    @Min(value = 1, message="O número de páginas deve ser pelo menos {value}.")
+    @Max(value = 10000, message="O número de páginas não pode exceder {value}.")
+    private Integer numeroPaginas;
 
     @NotBlank(message="O campo é obrigatório!")
-    @Size(min = 5, max = 1000, message="Este campo deve conter no mínimo 5 e máximo 100 caracteres.")
+    @Size(min = 5, max = 10000, message="Este campo deve conter no mínimo 5 e máximo 100 caracteres.")
     private String descricao;
 
     @NotBlank(message="O campo é obrigatório!")
     @Size(min = 5, max = 100, message="Este campo deve conter no mínimo 5 e máximo 100 caracteres.")
     private String genero;
 
-    @NotBlank(message="O campo é obrigatório!")
-    @Size(min = 5, max = 1000, message="Este campo deve conter no mínimo 5 e máximo 100 caracteres.")
-    private boolean situacao;
+    //private boolean situacao;
+    @Min(value = 0, message="A situação deve ser um valor positivo.")
+    @Max(value = 1, message="A situação deve ser 0 ou 1.")
+    private int situacao;
 
     @ManyToOne
-    @JsonIgnoreProperties("autor")
+    @JsonIgnoreProperties("livro")
+    @JoinColumn(name = "tb_autor_id")
     private Autor autor;
 
     @Size(max = 1000, message="Este campo deve conter no máximo 1000 caracteres.")
@@ -93,11 +95,19 @@ public class Livro {
         this.genero = genero;
     }
 
-    public boolean isSituacao() {
+    /*public boolean isSituacao() {
         return situacao;
     }
 
     public void setSituacao(boolean situacao) {
+        this.situacao = situacao;
+    }*/
+
+    public int getSituacao() {
+        return situacao;
+    }
+
+    public void setSituacao(int situacao) {
         this.situacao = situacao;
     }
 

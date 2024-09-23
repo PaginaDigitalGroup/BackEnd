@@ -20,7 +20,7 @@ public class Autor {
 
 
     @NotBlank(message="O atributo descrição é obrigatório e não pode conter espaços em branco!")
-    @Size(max=255,min=10,message="O atributo descrição deve conter no mínimo 10 e no máximo 255 caracteres")
+    @Size(max=5000,min=10,message="O atributo descrição deve conter no mínimo 10 e no máximo 255 caracteres")
     private String descricao;
 
     @OneToMany(mappedBy="autor", cascade=CascadeType.ALL)

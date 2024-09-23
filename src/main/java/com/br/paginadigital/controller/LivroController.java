@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/livros")
@@ -53,6 +54,17 @@ public class LivroController {
                     .orElse(ResponseEntity.badRequest().build());
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @PutMapping("/{id}/situacao/{situacao}")
+    public ResponseEntity<Livro> alterarSituacao(@PathVariable Long id, @PathVariable int situacao) {
+        return livroRepository.findById(id)
+                .map(livro -> {
+                    livro.setSituacao(situacao);
+                    livroRepository.save(livro);
+                    return ResponseEntity.ok(livro);
+                })
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
