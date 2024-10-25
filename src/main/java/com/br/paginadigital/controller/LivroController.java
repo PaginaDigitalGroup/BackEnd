@@ -56,6 +56,19 @@ public class LivroController {
         return ResponseEntity.notFound().build();
     }
 
+
+
+    @PutMapping("/{id}/atualizar")
+    public ResponseEntity<Livro> putLivro(@PathVariable Long id, @Valid @RequestBody Livro livro) {
+        if (livroRepository.existsById(id)) {
+            livro.setId(id); // Garantindo que o ID do livro a ser atualizado é o mesmo do passado na URL
+            return autorRepository.findById(livro.getAutor().getId())
+                    .map(resposta -> ResponseEntity.status(HttpStatus.OK).body(livroRepository.save(livro)))
+                    .orElse(ResponseEntity.badRequest().build());
+        }
+        return ResponseEntity.notFound().build();
+    }
+
     @PutMapping("/{id}/situacao/{situacao}")
     public ResponseEntity<Livro> alterarSituacao(@PathVariable Long id, @PathVariable int situacao) {
         return livroRepository.findById(id)
