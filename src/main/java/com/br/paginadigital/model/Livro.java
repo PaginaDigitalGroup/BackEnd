@@ -95,14 +95,6 @@ public class Livro {
         this.genero = genero;
     }
 
-    /*public boolean isSituacao() {
-        return situacao;
-    }
-
-    public void setSituacao(boolean situacao) {
-        this.situacao = situacao;
-    }*/
-
     public int getSituacao() {
         return situacao;
     }
@@ -126,4 +118,5 @@ public class Livro {
     public void setFoto(String foto) {
         this.foto = foto;
     }
+
 }
